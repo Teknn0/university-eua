@@ -1,0 +1,128 @@
+#include <iostream>
+using namespace std;
+
+int** allocateMatrix(int rows, int cols) {
+    int** matrix = new int* [rows];
+    for (int i = 0; i < rows; ++i)
+        matrix[i] = new int[cols];
+    return matrix;
+}
+
+void fillMatrix(int** matrix, int rows, int cols) {
+    cout << "Enter matrix values:\n";
+    for (int i = 0; i < rows; ++i)
+        for (int j = 0; j < cols; ++j)
+            cin >> matrix[i][j];
+}
+
+void displayMatrix(int** matrix, int rows, int cols) {
+    cout << "Matrix:\n";
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j)
+            cout << matrix[i][j] << " ";
+        cout << endl;
+    }
+}
+
+void rowSums(int** matrix, int rows, int cols) {
+    for (int i = 0; i < rows; ++i) {
+        int sum = 0;
+        for (int j = 0; j < cols; ++j)
+            sum += matrix[i][j];
+        cout << "Sum of row " << i << ": " << sum << endl;
+    }
+}
+
+void columnSums(int** matrix, int rows, int cols) {
+    for (int j = 0; j < cols; ++j) {
+        int sum = 0;
+        for (int i = 0; i < rows; ++i)
+            sum += matrix[i][j];
+        cout << "Sum of column " << j << ": " << sum << endl;
+    }
+}
+
+int totalSum(int** matrix, int rows, int cols) {
+    int sum = 0;
+    for (int i = 0; i < rows; ++i)
+        for (int j = 0; j < cols; ++j)
+            sum += matrix[i][j];
+    return sum;
+}
+
+int mainDiagonalSum(int** matrix, int size) {
+    int sum = 0;
+    for (int i = 0; i < size; ++i)
+        sum += matrix[i][i];
+    return sum;
+}
+
+int secondaryDiagonalSum(int** matrix, int size) {
+    int sum = 0;
+    for (int i = 0; i < size; ++i)
+        sum += matrix[i][size - i - 1];
+    return sum;
+}
+
+int findMax(int** matrix, int rows, int cols) {
+    int maxVal = matrix[0][0];
+    for (int i = 0; i < rows; ++i)
+        for (int j = 0; j < cols; ++j)
+            if (matrix[i][j] > maxVal)
+                maxVal = matrix[i][j];
+    return maxVal;
+}
+
+
+int findMin(int** matrix, int rows, int cols) {
+    int minVal = matrix[0][0];
+    for (int i = 0; i < rows; ++i)
+        for (int j = 0; j < cols; ++j)
+            if (matrix[i][j] < minVal)
+                minVal = matrix[i][j];
+    return minVal;
+}
+
+
+void deallocateMatrix(int** matrix, int rows) {
+    for (int i = 0; i < rows; ++i)
+        delete[] matrix[i];
+    delete[] matrix;
+}
+
+
+int main() {
+    int rows, cols;
+
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    int** matrix = allocateMatrix(rows, cols);
+
+    fillMatrix(matrix, rows, cols);
+    displayMatrix(matrix, rows, cols);
+
+    cout << endl;
+    rowSums(matrix, rows, cols);
+    columnSums(matrix, rows, cols);
+
+    cout << "Total sum of elements: " << totalSum(matrix, rows, cols) << endl;
+
+    if (rows == cols) {
+        cout << "Sum of main diagonal: " << mainDiagonalSum(matrix, rows) << endl;
+        cout << "Sum of secondary diagonal: " << secondaryDiagonalSum(matrix, rows) << endl;
+    }
+    else {
+        cout << "Diagonals only exist in square matrices.\n";
+    }
+
+    cout << "Maximum element: " << findMax(matrix, rows, cols) << endl;
+    cout << "Minimum element: " << findMin(matrix, rows, cols) << endl;
+
+    deallocateMatrix(matrix, rows);
+
+    return 0;
+}
+
