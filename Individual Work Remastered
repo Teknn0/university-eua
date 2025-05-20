@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void backtrack(vector<int> candidates, int target, vector<vector<int>>& result,
+    vector<int> combination = {}, int start = 0) {
+    if (target == 0) {
+        result.push_back(combination);
+        return;
+    }
+
+    for (int i = start; i < candidates.size(); i++) {
+        if (candidates[i] <= target) {
+            combination.push_back(candidates[i]);
+            backtrack(candidates, target - candidates[i], result, combination, i);
+            combination.pop_back();
+        }
+    }
+}
+
+
+
+int main() {
+    int n, target;
+    cout << "Enter the number of elements in the array: ";
+    cin >> n;
+
+    vector<int> candidates(n);
+    cout << "Enter the elements of the array:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> candidates[i];
+    }
+
+    cout << "Enter the target value: ";
+    cin >> target;
+
+    vector<vector<int>> result;
+    backtrack(candidates, target, result);
+
+    cout << "Combinations that sum to " << target << " are:\n";
+    for (auto& combination : result) {
+        cout << "[ ";
+        for (int num : combination) {
+            cout << num << " ";
+        }
+        cout << "]" << endl;
+    }
+
+    return 0;
+}
