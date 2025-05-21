@@ -38,9 +38,9 @@ int main() {
     backtrack(candidates, target, result);
 
     cout << "Combinations that sum to " << target << " are:\n";
-    for (auto& combination : result) {
+    for (auto combination : result) {
         cout << "[ ";
-        for (int num : combination) {
+        for (auto num : combination) {
             cout << num << " ";
         }
         cout << "]" << endl;
